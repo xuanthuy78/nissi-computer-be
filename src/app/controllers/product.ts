@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { Product } from "../models";
+import { Product, Category } from "../models";
 
-const getAllProducts = async (
+const createProducts = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  // const category = await Category.findById(req.body.category);
+  const category = await Category.findById(req.body.category);
   // if (!category) return res.status(400).send("Invalid Category");
 
   // const file = req.file;
@@ -26,4 +26,4 @@ const getAllProducts = async (
   res.send("vao");
 };
 
-export default { getAllProducts };
+export default { createProducts };
