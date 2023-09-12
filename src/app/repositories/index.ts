@@ -1,3 +1,4 @@
 import categoriesRepositories from "./category";
+import brandsRepositories from "./brand";
 
-export { categoriesRepositories };
+export { categoriesRepositories, brandsRepositories };
