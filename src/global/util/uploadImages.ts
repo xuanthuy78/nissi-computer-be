@@ -1,5 +1,7 @@
 import multer from "multer";
 import Exception from "../../exceptions/Exception";
+import { Request, Response, ErrorRequestHandler, NextFunction } from "express";
+import HttpStatusCode from "../../exceptions/HttpStatusCode";
 
 const FILE_TYPE_MAP: { [index: string]: string } = {
   "image/png": "png",
@@ -26,3 +28,16 @@ const storage = multer.diskStorage({
 });
 
 export const uploadOptions = multer({ storage: storage });
+
+export const multerErrorHandling = (
+  err: ErrorRequestHandler,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (err) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: err.toString(),
+    });
+  }
+};
