@@ -18,14 +18,14 @@ const createBrand = async (req: Request, res: Response) => {
     }
     const fileName = file?.filename;
     const basePath = pathUpload(req);
-    const student = await brandsRepositories.createBread(
+    const brand = await brandsRepositories.createBread(
       req.body,
       fileName,
       basePath
     );
     res.status(HttpStatusCode.INSERT_OK).json({
       message: "Create brand successfully",
-      data: student,
+      data: brand,
     });
   } catch (exception: any) {
     res.status(HttpStatusCode.BAD_REQUEST).json({

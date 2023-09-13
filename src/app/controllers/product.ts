@@ -1,29 +1,62 @@
 import { NextFunction, Request, Response } from "express";
-import { Product, Category } from "../models";
+import HttpStatusCode from "../../exceptions/HttpStatusCode";
+import Exception from "../../exceptions/Exception";
+import { isEmpty } from "lodash";
+import { pathUpload } from "../../global/util";
+import { productsRepositories } from "../repositories";
 
 const createProducts = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const category = await Category.findById(req.body.category);
-  // if (!category) return res.status(400).send("Invalid Category");
+  try {
+    const files: any = req.files;
+    let imageCollection = [];
+    const fileName = files?.productImage[0]?.filename;
 
-  // const file = req.file;
-  // if (!file) return res.status(400).send("No image in the request");
+    if (isEmpty(files)) {
+      const error: { message: string; validationErrors: any } = new Exception(
+        "Input error",
+        "Please upload a file"
+      );
+      res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: error.validationErrors,
+      });
+    }
 
-  // const fileName = file.filename;
-  // const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
-  let product = new Product({
-    productName:
-      "M\u00e0n H\u00ecnh Cong OLED Gaming LG UltraGear 45GR95QE-B (44.5 inch,  WQHD 3440 x 1440, 240Hz, 0.03ms, sRGB 98.5%)",
-  });
-  console.log(product);
-  product = await product.save();
+    const basePath = pathUpload(req);
 
-  if (!product) return res.status(500).send("The product cannot be created");
+    if (files?.imageCollection) {
+      imageCollection = files.imageCollection.map(
+        (file: Express.Multer.File) => `${basePath}${file.filename}`
+      );
+    }
 
-  res.send("vao");
+    const product = await productsRepositories.createProduct(
+      req.body,
+      fileName,
+      basePath,
+      imageCollection
+    );
+
+    res.status(HttpStatusCode.INSERT_OK).json({
+      message: "Create product successfully",
+      data: product,
+    });
+  } catch (exception: any) {
+    if (exception.validationErrors.code == 11000) {
+      res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: "Cannot product product:" + exception,
+        validationErrors: `${exception?.validationErrors?.keyValue?.productName} that already existed`,
+      });
+    } else {
+      res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: "Cannot create product:" + exception,
+        validationErrors: exception.validationErrors,
+      });
+    }
+  }
 };
 
 export default { createProducts };
