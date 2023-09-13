@@ -18,14 +18,14 @@ const createCategory = async (req: Request, res: Response) => {
     }
     const fileName = file?.filename;
     const basePath = pathUpload(req);
-    const student = await categoriesRepositories.createCategory(
+    const category = await categoriesRepositories.createCategory(
       req.body,
       fileName,
       basePath
     );
     res.status(HttpStatusCode.INSERT_OK).json({
       message: "Create category successfully",
-      data: student,
+      data: category,
     });
   } catch (exception: any) {
     res.status(HttpStatusCode.BAD_REQUEST).json({

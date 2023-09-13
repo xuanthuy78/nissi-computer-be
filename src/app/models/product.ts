@@ -14,7 +14,6 @@ const Product = new mongoose.Schema(
     },
     productImage: {
       type: String,
-      default: "",
     },
     imageCollection: [
       {
@@ -35,12 +34,12 @@ const Product = new mongoose.Schema(
     brand: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Brand",
-      // required: true,
+      required: true,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
-      // required: true,
+      required: true,
     },
     specialOffer: {
       title: { type: String },

@@ -30,12 +30,17 @@ const storage = multer.diskStorage({
 export const uploadOptions = multer({ storage: storage });
 
 export const multerErrorHandling = (
-  err: ErrorRequestHandler,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  if (err) {
+  console.log(err);
+  if (err.field) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: `Limit file ${err.field}`,
+    });
+  } else {
     res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
       message: err.toString(),
     });
