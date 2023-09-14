@@ -96,9 +96,19 @@ const updateProduct = async (
   }
 };
 
+const deleteProductById = async (productId: string) => {
+  try {
+    const product = await Product.findByIdAndRemove(productId);
+    return product;
+  } catch {
+    throw new Exception("Cannot find Product with id " + productId);
+  }
+};
+
 export default {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
+  deleteProductById,
 };

@@ -172,9 +172,28 @@ const updateProduct = async (
   }
 };
 
+const deleteProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const productId = req?.params?.id;
+  try {
+    const product = await productsRepositories.deleteProductById(productId);
+    res.status(HttpStatusCode.OK).json({
+      message: "Delete product successfully",
+      data: { id: product?._id },
+    });
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exception.message,
+    });
+  }
+};
 export default {
   createProducts,
   getAllProducts,
   getProductById,
   updateProduct,
+  deleteProduct,
 };
