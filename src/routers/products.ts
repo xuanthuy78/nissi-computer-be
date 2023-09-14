@@ -20,5 +20,20 @@ router.post(
 );
 router.get(`/`, productController.getAllProducts);
 router.get(`/:id`, productController.getProductById);
+router.put(
+  "/:id",
+  uploadOptions.fields([
+    {
+      name: "productImage",
+      maxCount: 1,
+    },
+    {
+      name: "imageCollection",
+      maxCount: 10,
+    },
+  ]),
+  multerErrorHandling,
+  productController.updateProduct
+);
 
 export default router;
