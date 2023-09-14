@@ -11,7 +11,7 @@ router.post(
 );
 
 router.get(`/`, brandController.getAllBrands);
-// router.get(`/:id`, productController.getProductById);
+router.get(`/:id`, brandController.getBrandById);
 // router.put(
 //   "/:id",
 //   uploadOptions.fields([

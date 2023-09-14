@@ -65,4 +65,19 @@ const getAllBrands = async (req: Request, res: Response) => {
   }
 };
 
-export default { createBrand, getAllBrands };
+const getBrandById = async (req: Request, res: Response) => {
+  const brandId = req.params.id;
+  try {
+    const brand = await brandsRepositories.getBrandById(brandId);
+    res.status(HttpStatusCode.OK).json({
+      message: "Get detail brand successfully",
+      data: brand,
+    });
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exception.message,
+    });
+  }
+};
+
+export default { createBrand, getAllBrands, getBrandById };

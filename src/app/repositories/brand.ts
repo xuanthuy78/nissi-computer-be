@@ -32,7 +32,17 @@ const getAllBrands = async ({ size, page, search }: paginationTypes) => {
   return filteredBrand;
 };
 
+const getBrandById = async (brandId: string) => {
+  try {
+    const brand = await Brand.findById(brandId);
+    return brand;
+  } catch {
+    throw new Exception("Cannot find Brand with id " + brandId);
+  }
+};
+
 export default {
   createBread,
   getAllBrands,
+  getBrandById,
 };
