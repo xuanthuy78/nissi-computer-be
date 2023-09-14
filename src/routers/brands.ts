@@ -10,4 +10,23 @@ router.post(
   brandController.createBrand
 );
 
+router.get(`/`, brandController.getAllBrands);
+// router.get(`/:id`, productController.getProductById);
+// router.put(
+//   "/:id",
+//   uploadOptions.fields([
+//     {
+//       name: "productImage",
+//       maxCount: 1,
+//     },
+//     {
+//       name: "imageCollection",
+//       maxCount: 10,
+//     },
+//   ]),
+//   multerErrorHandling,
+//   productController.updateProduct
+// );
+// router.delete("/:id", productController.deleteProduct);
+
 export default router;

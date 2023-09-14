@@ -3,6 +3,7 @@ import HttpStatusCode from "../../exceptions/HttpStatusCode";
 import Exception from "../../exceptions/Exception";
 import { pathUpload } from "../../global/util";
 import { brandsRepositories } from "../repositories";
+import { MAX_RECORDS, paginationTypes } from "../../global/common";
 
 const createBrand = async (req: Request, res: Response) => {
   try {
@@ -35,4 +36,33 @@ const createBrand = async (req: Request, res: Response) => {
   }
 };
 
-export default { createBrand };
+const getAllBrands = async (req: Request, res: Response) => {
+  let {
+    page = "1",
+    size = MAX_RECORDS,
+    search = "",
+  }: paginationTypes = req.query as paginationTypes;
+
+  size = size >= MAX_RECORDS ? MAX_RECORDS : size;
+
+  try {
+    let filteredBrands = await brandsRepositories.getAllBrands({
+      size,
+      page,
+      search,
+    });
+    res.status(HttpStatusCode.OK).json({
+      message: "Get brands successfully",
+      size: filteredBrands.length,
+      page,
+      search,
+      data: filteredBrands,
+    });
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exception.message,
+    });
+  }
+};
+
+export default { createBrand, getAllBrands };
