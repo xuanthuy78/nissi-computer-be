@@ -62,9 +62,19 @@ const updateBrand = async (
   }
 };
 
+const deleteBrandById = async (brandId: string) => {
+  try {
+    const brand = await Brand.findByIdAndRemove(brandId);
+    return brand;
+  } catch {
+    throw new Exception("Cannot find Brand with id " + brandId);
+  }
+};
+
 export default {
   createBread,
   getAllBrands,
   getBrandById,
   updateBrand,
+  deleteBrandById,
 };

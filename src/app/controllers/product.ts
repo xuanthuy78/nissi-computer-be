@@ -190,6 +190,7 @@ const deleteProduct = async (
     });
   }
 };
+
 export default {
   createProducts,
   getAllProducts,

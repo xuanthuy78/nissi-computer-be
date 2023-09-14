@@ -18,6 +18,6 @@ router.put(
   multerErrorHandling,
   brandController.updateBrand
 );
-// router.delete("/:id", productController.deleteProduct);
+router.delete("/:id", brandController.deleteBrand);
 
 export default router;
