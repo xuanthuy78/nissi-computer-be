@@ -3,7 +3,6 @@ import { productController } from "../app/controllers";
 import { multerErrorHandling, uploadOptions } from "../global/util";
 const router = express.Router();
 
-router.get(`/`, productController.getAllProducts);
 router.post(
   "/",
   uploadOptions.fields([
@@ -19,5 +18,7 @@ router.post(
   multerErrorHandling,
   productController.createProducts
 );
+router.get(`/`, productController.getAllProducts);
+router.get(`/:id`, productController.getProductById);
 
 export default router;

@@ -2,22 +2,6 @@ import Exception from "../../exceptions/Exception";
 import { paginationTypes } from "../../global/common";
 import { Product, Category, Brand } from "../models";
 
-const getAllProducts = async ({
-  size,
-  page,
-  searchString,
-}: paginationTypes) => {
-  let filteredProduct: any = await Product.aggregate([
-    {
-      $match: { productName: { $regex: `.*${searchString}.*`, $options: "i" } },
-    },
-    { $skip: (parseInt(page) - 1) * parseInt(size) },
-    { $limit: parseInt(size) },
-  ]);
-
-  return filteredProduct;
-};
-
 const createProduct = async (
   data: any,
   fileName: string | undefined,
@@ -52,7 +36,29 @@ const createProduct = async (
   }
 };
 
+const getAllProducts = async ({ size, page, search }: paginationTypes) => {
+  let filteredProduct: any = await Product.aggregate([
+    {
+      $match: { productName: { $regex: `.*${search}.*`, $options: "i" } },
+    },
+    { $skip: (parseInt(page) - 1) * parseInt(size) },
+    { $limit: parseInt(size) },
+  ]);
+
+  return filteredProduct;
+};
+
+const getProductById = async (productId: string) => {
+  try {
+    const product = await Product.findById(productId);
+    return product;
+  } catch {
+    throw new Exception("Cannot find Product with id " + productId);
+  }
+};
+
 export default {
   createProduct,
   getAllProducts,
+  getProductById,
 };

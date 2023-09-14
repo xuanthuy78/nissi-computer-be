@@ -6,39 +6,6 @@ import { pathUpload } from "../../global/util";
 import { productsRepositories } from "../repositories";
 import { MAX_RECORDS, paginationTypes } from "../../global/common";
 
-const getAllProducts = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  let {
-    page = "1",
-    size = MAX_RECORDS,
-    searchString = "",
-  }: paginationTypes = req.query as paginationTypes;
-
-  size = size >= MAX_RECORDS ? MAX_RECORDS : size;
-
-  try {
-    let filteredProducts = await productsRepositories.getAllProducts({
-      size,
-      page,
-      searchString,
-    });
-    res.status(HttpStatusCode.OK).json({
-      message: "Get products successfully",
-      size: filteredProducts.length,
-      page,
-      searchString,
-      data: filteredProducts,
-    });
-  } catch (exception: any) {
-    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-      message: exception.message,
-    });
-  }
-};
-
 const createProducts = async (
   req: Request,
   res: Response,
@@ -90,4 +57,56 @@ const createProducts = async (
   }
 };
 
-export default { createProducts, getAllProducts };
+const getAllProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let {
+    page = "1",
+    size = MAX_RECORDS,
+    search = "",
+  }: paginationTypes = req.query as paginationTypes;
+
+  size = size >= MAX_RECORDS ? MAX_RECORDS : size;
+
+  try {
+    let filteredProducts = await productsRepositories.getAllProducts({
+      size,
+      page,
+      search,
+    });
+    res.status(HttpStatusCode.OK).json({
+      message: "Get products successfully",
+      size: filteredProducts.length,
+      page,
+      search,
+      data: filteredProducts,
+    });
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exception.message,
+    });
+  }
+};
+
+const getProductById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const productId = req.params.id;
+  try {
+    const product = await productsRepositories.getProductById(productId);
+    res.status(HttpStatusCode.OK).json({
+      message: "Get detail product successfully",
+      data: product,
+    });
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exception.message,
+    });
+  }
+};
+
+export default { createProducts, getAllProducts, getProductById };
