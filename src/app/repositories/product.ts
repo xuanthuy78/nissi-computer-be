@@ -1,5 +1,22 @@
 import Exception from "../../exceptions/Exception";
+import { paginationTypes } from "../../global/common";
 import { Product, Category, Brand } from "../models";
+
+const getAllProducts = async ({
+  size,
+  page,
+  searchString,
+}: paginationTypes) => {
+  let filteredProduct: any = await Product.aggregate([
+    {
+      $match: { productName: { $regex: `.*${searchString}.*`, $options: "i" } },
+    },
+    { $skip: (parseInt(page) - 1) * parseInt(size) },
+    { $limit: parseInt(size) },
+  ]);
+
+  return filteredProduct;
+};
 
 const createProduct = async (
   data: any,
@@ -37,4 +54,5 @@ const createProduct = async (
 
 export default {
   createProduct,
+  getAllProducts,
 };
