@@ -41,8 +41,30 @@ const getBrandById = async (brandId: string) => {
   }
 };
 
+const updateBrand = async (
+  data: any,
+  fileName: string | undefined,
+  basePath: string,
+  brandId: string
+) => {
+  try {
+    const brand = await Brand.findByIdAndUpdate(
+      brandId,
+      {
+        name: data.name,
+        image: fileName ? `${basePath}${fileName}` : data.image,
+      },
+      { new: true, runValidators: true }
+    );
+    return brand;
+  } catch (exception: any) {
+    throw new Exception("Input error", exception);
+  }
+};
+
 export default {
   createBread,
   getAllBrands,
   getBrandById,
+  updateBrand,
 };

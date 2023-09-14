@@ -83,7 +83,7 @@ const updateProduct = async (
           brand: data.brand,
           quantity: data.quantity,
         },
-        { new: true }
+        { new: true, runValidators: true }
       )
         .populate("category")
         .populate("brand");

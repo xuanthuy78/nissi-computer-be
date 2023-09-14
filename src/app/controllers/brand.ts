@@ -80,4 +80,38 @@ const getBrandById = async (req: Request, res: Response) => {
   }
 };
 
-export default { createBrand, getAllBrands, getBrandById };
+const updateBrand = async (req: Request, res: Response) => {
+  try {
+    const file = req.file;
+    const brandId = req.params.id;
+    if (!file || req.body.image) {
+      const error: { message: string; validationErrors: any } = new Exception(
+        "Input error",
+        "Please upload a file"
+      );
+      res.status(HttpStatusCode.BAD_REQUEST).json({
+        message: error.validationErrors,
+      });
+    }
+    const fileName = file?.filename;
+    const basePath = pathUpload(req);
+    const brand = await brandsRepositories.updateBrand(
+      req.body,
+      fileName,
+      basePath,
+      brandId
+    );
+    res.status(HttpStatusCode.INSERT_OK).json({
+      message: "Create brand successfully",
+      data: brand,
+    });
+  } catch (exception: any) {
+    console.log(exception);
+    res.status(HttpStatusCode.BAD_REQUEST).json({
+      message: "Cannot create brand:" + exception,
+      validationErrors: exception.validationErrors,
+    });
+  }
+};
+
+export default { createBrand, getAllBrands, getBrandById, updateBrand };

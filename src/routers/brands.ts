@@ -12,21 +12,12 @@ router.post(
 
 router.get(`/`, brandController.getAllBrands);
 router.get(`/:id`, brandController.getBrandById);
-// router.put(
-//   "/:id",
-//   uploadOptions.fields([
-//     {
-//       name: "productImage",
-//       maxCount: 1,
-//     },
-//     {
-//       name: "imageCollection",
-//       maxCount: 10,
-//     },
-//   ]),
-//   multerErrorHandling,
-//   productController.updateProduct
-// );
+router.put(
+  "/:id",
+  uploadOptions.single("image"),
+  multerErrorHandling,
+  brandController.updateBrand
+);
 // router.delete("/:id", productController.deleteProduct);
 
 export default router;
