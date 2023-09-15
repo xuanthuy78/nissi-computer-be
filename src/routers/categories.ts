@@ -10,5 +10,13 @@ router.post(
   multerErrorHandling,
   categoryController.createCategory
 );
-
+router.get(`/`, categoryController.getAllCategories);
+router.get(`/:id`, categoryController.getCategoryById);
+router.put(
+  "/:id",
+  uploadOptions.single("icon"),
+  multerErrorHandling,
+  categoryController.updateCategory
+);
+router.delete("/:id", categoryController.deleteCategory);
 export default router;
