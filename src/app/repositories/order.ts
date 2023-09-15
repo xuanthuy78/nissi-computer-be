@@ -1,5 +1,5 @@
 import Exception from "../../exceptions/Exception";
-import { orderItemTypes } from "../../global/common";
+import { orderItemTypes, paginationTypes } from "../../global/common";
 import { Order, OrderItem } from "../models";
 
 const createOrder = async (data: any) => {
@@ -38,6 +38,20 @@ const createOrder = async (data: any) => {
   }
 };
 
+const getAllOrders = async ({ size, page, search }: paginationTypes) => {
+  let filteredOrder: any = await Order.aggregate([
+    {
+      $match: { firstName: { $regex: `.*${search}.*`, $options: "i" } },
+    },
+    { $skip: (parseInt(page) - 1) * parseInt(size) },
+    { $limit: parseInt(size) },
+    { $sort: { createdAt: -1 } },
+  ]);
+
+  return filteredOrder;
+};
+
 export default {
   createOrder,
+  getAllOrders,
 };
