@@ -3,3 +3,7 @@ export type paginationTypes = {
   size: string;
   search: string;
 };
+export type orderItemTypes = {
+  quantity: number;
+  product: string;
+};

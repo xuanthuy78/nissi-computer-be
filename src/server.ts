@@ -2,7 +2,12 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import * as dotenv from "dotenv";
-import { brandsRouter, categoriesRouter, productsRouter } from "./routers";
+import {
+  brandsRouter,
+  categoriesRouter,
+  ordersRouter,
+  productsRouter,
+} from "./routers";
 import connect from "./database/database";
 
 dotenv.config();
@@ -21,6 +26,7 @@ app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 app.use(`${api}/products`, productsRouter);
 app.use(`${api}/categories`, categoriesRouter);
 app.use(`${api}/brands`, brandsRouter);
+app.use(`${api}/orders`, ordersRouter);
 
 app.listen(port, async () => {
   connect();
