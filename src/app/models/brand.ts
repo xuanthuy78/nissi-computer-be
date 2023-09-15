@@ -6,8 +6,8 @@ const Brand = new mongoose.Schema(
       type: String,
       required: [true, "Name is required"],
       validate: {
-        validator: (name: string) => name.length > 3,
-        message: "Name must be at least 3 characters",
+        validator: (name: string) => name.length > 2,
+        message: "Name must be at least 2 characters",
       },
     },
     image: {
