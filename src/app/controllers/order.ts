@@ -50,7 +50,28 @@ const getAllOrders = async (req: Request, res: Response) => {
   }
 };
 
+const getOrdersById = async (req: Request, res: Response) => {
+  const orderId = req.params.id;
+  try {
+    const order = await ordersRepositories.getOrderById(orderId);
+    if (order) {
+      res.status(HttpStatusCode.OK).json({
+        message: "Get detail order successfully",
+        data: order,
+      });
+    } else {
+      res.status(HttpStatusCode.OK).json({
+        message: `Deleted order ${orderId}`,
+      });
+    }
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exception.message,
+    });
+  }
+};
 export default {
   createOrder,
   getAllOrders,
+  getOrdersById,
 };

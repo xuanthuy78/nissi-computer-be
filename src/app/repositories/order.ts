@@ -51,7 +51,17 @@ const getAllOrders = async ({ size, page, search }: paginationTypes) => {
   return filteredOrder;
 };
 
+const getOrderById = async (orderId: string) => {
+  try {
+    const order = await Order.findById(orderId);
+    return order;
+  } catch {
+    throw new Exception("Cannot find order with id " + orderId);
+  }
+};
+
 export default {
   createOrder,
   getAllOrders,
+  getOrderById,
 };
