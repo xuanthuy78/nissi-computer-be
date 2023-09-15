@@ -60,8 +60,24 @@ const getOrderById = async (orderId: string) => {
   }
 };
 
+const updateOrder = async (data: any, orderId: string) => {
+  try {
+    const category = await Order.findByIdAndUpdate(
+      orderId,
+      {
+        status: data.status,
+      },
+      { new: true, runValidators: true }
+    );
+    return category;
+  } catch (exception: any) {
+    throw new Exception("Input error", exception);
+  }
+};
+
 export default {
   createOrder,
   getAllOrders,
   getOrderById,
+  updateOrder,
 };

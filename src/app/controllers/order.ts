@@ -70,8 +70,27 @@ const getOrdersById = async (req: Request, res: Response) => {
     });
   }
 };
+
+const updateOrder = async (req: Request, res: Response) => {
+  const orderId = req.params.id;
+  const data = req.body;
+  try {
+    const order = await ordersRepositories.updateOrder(data, orderId);
+
+    res.status(HttpStatusCode.INSERT_OK).json({
+      message: "Create order successfully",
+      data: order,
+    });
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      message: exception.message,
+    });
+  }
+};
+
 export default {
   createOrder,
   getAllOrders,
   getOrdersById,
+  updateOrder,
 };
