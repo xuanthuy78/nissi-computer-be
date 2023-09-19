@@ -3,9 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
+  "homepage": "https://github.com/xuanthuy78/nissi-computer-be#readme",
+  "bugs": {
+    "url": "https://github.com/xuanthuy78//nissi-computer-be/issues"
+  },
   "scripts": {
     "start": "nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuanthuy78/nissi-computer-be.git"
   },
   "author": "",
   "license": "ISC",
