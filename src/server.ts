@@ -30,6 +30,9 @@ app.use(`${api}/categories`, authJwt, categoriesRouter);
 app.use(`${api}/brands`, authJwt, brandsRouter);
 app.use(`${api}/orders`, ordersRouter);
 app.use(`${api}/users`, authJwt, usersRouter);
+app.get("/today", (req, res) => {
+  res.send("o day");
+});
 
 app.listen(port, async () => {
   connect();
