@@ -106,7 +106,6 @@ const updateBrand = async (req: Request, res: Response) => {
       data: brand,
     });
   } catch (exception: any) {
-    console.log(exception);
     res.status(HttpStatusCode.BAD_REQUEST).json({
       message: "Cannot create brand:" + exception,
       validationErrors: exception.validationErrors,
