@@ -1,6 +1,7 @@
 import express from "express";
 import { productController } from "../app/controllers";
 import { multerErrorHandling, uploadOptions } from "../global/util";
+import authJwt from "../helpers/jwt";
 const router = express.Router();
 
 router.post(
@@ -15,6 +16,7 @@ router.post(
       maxCount: 10,
     },
   ]),
+  authJwt,
   multerErrorHandling,
   productController.createProducts
 );
@@ -22,6 +24,7 @@ router.get(`/`, productController.getAllProducts);
 router.get(`/:id`, productController.getProductById);
 router.put(
   "/:id",
+  authJwt,
   uploadOptions.fields([
     {
       name: "productImage",
@@ -35,6 +38,6 @@ router.put(
   multerErrorHandling,
   productController.updateProduct
 );
-router.delete("/:id", productController.deleteProduct);
+router.delete("/:id", authJwt, productController.deleteProduct);
 
 export default router;

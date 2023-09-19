@@ -7,3 +7,11 @@ export type orderItemTypes = {
   quantity: number;
   product: string;
 };
+
+export type userTypes = {
+  name: string;
+  email: string;
+  password: string;
+  phone: number;
+  address: string;
+};
