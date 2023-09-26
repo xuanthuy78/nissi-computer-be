@@ -1,13 +1,13 @@
 # nissi-computer-be
 
-# yarn
+### yarn
 
-# yarn start
+### yarn start
 
-# file .env (connect serve)
+### file .env (connect serve)
 
-# router -> controllers -> repositories -> models
+### router -> controllers -> repositories -> models
 
-# node version 18.17.0
+### node version 18.17.0
 
-# deploy -> render: https://nissi-computer-be.onrender.com (add .env)
+### deploy -> render: https://nissi-computer-be.onrender.com (add .env)
